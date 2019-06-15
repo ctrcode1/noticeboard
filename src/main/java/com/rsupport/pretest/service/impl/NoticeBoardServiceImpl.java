@@ -3,6 +3,8 @@ package com.rsupport.pretest.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,6 +22,17 @@ import com.rsupport.pretest.repository.NoticeBoardRepository;
 public class NoticeBoardServiceImpl {
     
     @Autowired private NoticeBoardRepository noticeBoardRepository;
+    
+    @PostConstruct
+	public void initNoticeBoardService() throws Exception {
+    	for(int i = 1 ; i < 35 ; i++) {
+    		Notice notice = new Notice();
+    		notice.setTitle("테스트 " + i);
+    		notice.setContent("이것은 테스트 " + i + " 공지사항 입니다.");
+    		notice.setCreatedBy("user" + ((i % 2) + 1));
+    		this.postNotices(notice);
+    	}
+	}
 
     public Page<NoticeList> getNotices(Integer pageIndex) {
         PageRequest noticeBoardPage = PageRequest.of(pageIndex, 10, new Sort(Direction.DESC, "updated"));

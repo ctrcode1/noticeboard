@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style type="text/css">
+        .table-hover tbody tr:hover td
+        {
+            background-color: Gray;         
+        }
+        body
+        {
+            margin: 50px;
+        }
+    </style>
+</head>
+</head>
+<script>
+function newNoticeForm(prevPageNumber) {
+	location.replace("../newNoticeForm?prevPageNumber=" + prevPageNumber);
+}
+function getNotice(noticeId, prevPageNumber) {
+	location.replace("../" + noticeId + "?prevPageNumber=" + prevPageNumber);
+}
+</script>
+<body class="container">
+	<div class="row">
+	    <div class="col-sm">
+		    <div class="jumbotron">
+		        <h2>스프링 부트 게시판</h2>
+		    </div>
+	    </div>
+	</div>
+	<div class="row">
+	    <div class="col-sm pull-right">
+	      <button id="btn_new" type="button" class="btn btn-primary" th:onclick="|javascript:newNoticeForm(${noticeList.number})|">새 공지 만들기</button>
+	    </div>
+	</div>
+	<div class="row">
+	    <div class="col-sm">
+			<table class="table table-hover">
+			  <thead class="thead-dark">
+			    <tr>
+			      <th scope="col">#</th>
+			      <th scope="col">타이틀</th>
+			      <th scope="col">최종수정자</th>
+			      <th scope="col">최종수정일시</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+					<tr th:each="notice, iStat : ${noticeList.content}"
+				        th:style="${iStat.odd}? 'font-weight: bold;'"
+				        th:alt-title="${iStat.even}? 'even' : 'odd'"
+				        th:onclick="|javascript:getNotice(${notice.noticeId}, ${noticeList.number})|">
+				        <td th:text="${notice.noticeId}" />
+				        <td th:text="${notice.title}" />
+				        <td th:text="${notice.updatedBy}" />
+				        <td th:text="${notice.updated}" />
+				    </tr>
+			  </tbody>
+			</table>
+	    </div>
+	</div>
+    <nav style="text-align: center;">
+    	<ul class="pagination">
+            <li th:each="pageNumber: ${pageNumbers}" th:class="${pageNumber == noticeList.number + 1} ? 'active'">
+            	<a th:text="${pageNumber}" th:href="@{/noticeboard/all/{page}(page=${pageNumber - 1})}"></a>
+       		</li>
+    	</ul>
+    </nav>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" class="btn" value="Sign Out"/>
+    </form>
+</body>
+</html>

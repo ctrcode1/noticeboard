@@ -23,3 +23,12 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
+
+jar {
+    version = null
+}
+
+bootJar {
+	archiveName = "rsupport_pretest.jar"
+    launchScript()
+}

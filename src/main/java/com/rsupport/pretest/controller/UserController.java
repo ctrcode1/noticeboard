@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@GetMapping("/login")
+	@GetMapping(value={"/", "/login"})
     public String login(Model model) {
         logger.info("login is called.");
         return "login";

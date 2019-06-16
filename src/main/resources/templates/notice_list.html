@@ -28,10 +28,7 @@
 	
 	function searchByUser() {
 		var url = 'http://localhost:8080/noticeboard/all/0?createdBy=' + $('#createdBy').val();
-// 		var url = 'http://localhost:8080/noticeboard/all/0';
-		alert('searchByUser : ' + url);
 		window.location.replace(url);
-		//location.replace = "/noticeboard/all/0?createdBy=" + $('#createdBy').val();
 	}
 </script>
 <body class="container">

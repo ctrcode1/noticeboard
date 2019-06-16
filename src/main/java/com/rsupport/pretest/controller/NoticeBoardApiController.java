@@ -45,6 +45,9 @@ public class NoticeBoardApiController {
     @PostMapping("")
     public NoticeBoardEntity postNotices(@Valid @RequestBody Notice notice, Authentication authentication) {
         logger.info("postNotices is called.");
+        if((notice.getTitle() == null) || (notice.getTitle().trim().isEmpty())) {
+            throw new RuntimeException("제목은 공백이나 Null이 허용되지 않습니다.");
+        }
         notice.setCreatedBy(authentication.getName());
         return this.noticeBoardService.postNotices(notice);
     }
@@ -52,6 +55,9 @@ public class NoticeBoardApiController {
     @PutMapping("")
     public NoticeBoardEntity putNotice(@Valid @RequestBody Notice notice, Authentication authentication) {
         logger.info("putNotice is called.");
+        if((notice.getTitle() == null) || (notice.getTitle().trim().isEmpty())) {
+            throw new RuntimeException("제목은 공백이나 Null이 허용되지 않습니다.");
+        }
         notice.setUpdatedBy(authentication.getName());
         return this.noticeBoardService.putNotice(notice);
     }

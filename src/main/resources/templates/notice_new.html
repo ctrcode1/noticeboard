@@ -27,7 +27,8 @@ function newNoticeForm() {
 	    	location.replace("../noticeboard/all/0");
 // 	        $('#response pre').html( JSON.stringify( data ) );
 	    },
-	    error: function( jqXhr, textStatus, errorThrown ){
+	    error: function( request, textStatus, errorThrown ){
+	    	alert(request.responseText);
 	        console.log( errorThrown );
 	    }
     });

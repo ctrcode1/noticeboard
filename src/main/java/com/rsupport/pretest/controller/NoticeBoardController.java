@@ -31,9 +31,12 @@ public class NoticeBoardController {
     
     @Autowired private NoticeBoardServiceImpl noticeBoardService;
     @GetMapping("/all/{pageIndex}")
-    public String getNotices(@PathVariable Integer pageIndex, Model model) {
+    public String getNotices(
+    		@PathVariable Integer pageIndex,
+    		@RequestParam(value="createdBy", required =false) String createdBy,
+    		Model model) {
         logger.info("getNotices is called. : {}", pageIndex);
-        Page<NoticeList> noticeList = this.noticeBoardService.getNotices(pageIndex);
+        Page<NoticeList> noticeList = this.noticeBoardService.getNotices(pageIndex, createdBy);
         model.addAttribute("noticeList", noticeList);
         if (noticeList.getTotalPages() > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, noticeList.getTotalPages())
@@ -41,6 +44,7 @@ public class NoticeBoardController {
                 .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
+        model.addAttribute("createdBy", createdBy);
         return "notice_list";
     }
     

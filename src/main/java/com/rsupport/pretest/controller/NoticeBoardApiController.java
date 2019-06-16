@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rsupport.pretest.model.dto.Notice;
@@ -30,9 +31,9 @@ public class NoticeBoardApiController {
     @Autowired private NoticeBoardServiceImpl noticeBoardService;
 
     @GetMapping("/all/{pageIndex}")
-    public Page<NoticeList> getNotices(@PathVariable Integer pageIndex) {
+    public Page<NoticeList> getNotices(@PathVariable Integer pageIndex, @RequestParam String createdBy) {
         logger.info("getNotices is called. : {}", pageIndex);
-        return this.noticeBoardService.getNotices(pageIndex);
+        return this.noticeBoardService.getNotices(pageIndex, createdBy);
     }
 
     @GetMapping("/{noticeId}")

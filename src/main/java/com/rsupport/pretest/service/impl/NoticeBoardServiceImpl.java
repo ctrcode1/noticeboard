@@ -11,12 +11,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.rsupport.pretest.model.dto.Notice;
 import com.rsupport.pretest.model.dto.NoticeList;
 import com.rsupport.pretest.model.entity.NoticeBoardEntity;
 import com.rsupport.pretest.repository.NoticeBoardRepository;
+import com.rsupport.pretest.repository.specs.NoticeBoardSpecs;
 
 @Service("noticeBoardService")
 public class NoticeBoardServiceImpl {
@@ -31,12 +33,19 @@ public class NoticeBoardServiceImpl {
     		notice.setContent("이것은 테스트 " + i + " 공지사항 입니다.");
     		notice.setCreatedBy("user" + ((i % 2) + 1));
     		this.postNotices(notice);
+    		Thread.sleep(100);
     	}
 	}
 
-    public Page<NoticeList> getNotices(Integer pageIndex) {
+    public Page<NoticeList> getNotices(Integer pageIndex, String createdBy) {
         PageRequest noticeBoardPage = PageRequest.of(pageIndex, 10, new Sort(Direction.DESC, "updated"));
-        Page<NoticeBoardEntity> noticeBoardEntities = this.noticeBoardRepository.findAll(noticeBoardPage);
+        Page<NoticeBoardEntity> noticeBoardEntities = null;
+    	if((createdBy != null) && (!createdBy.trim().isEmpty())) {
+    		Specification<NoticeBoardEntity> noticeBoardSpec = Specification.where(NoticeBoardSpecs.equalTo("createdBy", createdBy));
+            noticeBoardEntities = this.noticeBoardRepository.findAll(noticeBoardSpec, noticeBoardPage);
+    	} else {
+            noticeBoardEntities = this.noticeBoardRepository.findAll(noticeBoardPage);
+    	}
         List<NoticeList> notices = new ArrayList<>();
         noticeBoardEntities.getContent().forEach(x -> notices.add(new NoticeList(x)));
 

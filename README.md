@@ -85,6 +85,22 @@ STS에서의 실행
 
 Stand-Alone 실행
 -------------
+1. application jar 파일 생성
+    1. STS에서의 생성
+        - Gradle Tasks View에서 rsupport_pretest -> build -> build에 실행
+        
+        ![image](https://user-images.githubusercontent.com/4945833/59560019-87fa9400-9045-11e9-8105-904e08cd7f9b.png)
+        
+    2. CLI 환경에서 실행
+        - project root directory에서 'gradlew bootjar' 명령 실행
+        
+        ![image](https://user-images.githubusercontent.com/4945833/59560146-022c1800-9048-11e9-820f-0a011bd704f2.png)
+        
+    3. <project_root>/build/libs 디렉토리로 이동
+    4. java -jar rsupport_pretest.jar로 실행
+    
+        ![image](https://user-images.githubusercontent.com/4945833/59560072-74036200-9046-11e9-9df3-9562f7b6c632.png)
+        
 
 기능 테스트
 -------------
